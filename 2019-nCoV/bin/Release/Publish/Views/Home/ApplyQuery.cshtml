@@ -1,0 +1,226 @@
+﻿
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>奥海科技防控登记查询</title>
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <link href="~/layui-v2.5.6/layui/css/layui.css" rel="stylesheet" media="all"/>
+</head>
+<body>
+    <blockquote class="layui-elem-quote">
+        <form class="layui-form">
+            <div class="layui-form-item">
+                <div class="layui-inline">
+                    <label class="layui-form-label">一级部门</label>
+                    <div class="layui-input-block">
+                        <select id="deptonelevel" name="deptonelevel" lay-filter="deptonelevel">
+                        </select>
+                    </div>
+                </div>
+                <div class="layui-inline">
+                    <label class="layui-form-label">二级部门</label>
+                    <div class="layui-input-block">
+                        <select id="depttwolevel" name="depttwolevel" lay-filter="depttwolevel">
+                        </select>
+                    </div>
+                </div>
+                <div class="layui-inline">
+                    <label class="layui-form-label">三级部门</label>
+                    <div class="layui-input-block">
+                        <select id="deptthreelevel" name="deptthreelevel" lay-filter="deptthreelevel">
+                        </select>
+                    </div>
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <div class="layui-inline">
+                    <label class="layui-form-label">登记时间</label>
+                    <div class="layui-input-inline">
+                        <input type="text" class="layui-input" id="test1" placeholder="yyyy-MM-dd">
+                    </div>
+                </div>
+                <div class="layui-inline">
+                    <label class="layui-form-label">--------</label>
+                    <div class="layui-input-inline">
+                        <input type="text" class="layui-input" id="test2" placeholder="yyyy-MM-dd">
+                    </div>
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label">厂区</label>
+                <input type="radio" name="factory" value="东莞厂区" title="东莞厂区" lay-filter="factoryradio" checked="">
+                <input type="radio" name="factory" value="江西厂区" title="江西厂区" lay-filter="factoryradio">
+            </div>
+            <div class="layui-form-item" id="dgchoose" >
+                <label class="layui-form-label">目前情况</label>
+                <input type="radio" name="dgchoose" value="入住园区" title="入住园区" checked="">
+                <input type="radio" name="dgchoose" value="回到广东未入住园区" title="回到广东未入住园区">
+                <input type="radio" name="dgchoose" value="在老家" title="在老家">
+            </div>
+            <div class="layui-form-item" id="jxchoose"  style="display:none;">
+                <label class="layui-form-label">目前情况</label>
+                <input type="radio" name="jxchoose" value="入住园区" title="入住园区" checked="">
+                <input type="radio" name="jxchoose" value="未入住园区" title="未入住园区">
+            </div>
+            <button class="layui-btn" type="button" id="demo2">查询</button>
+            <div class="layui-form-mid layui-word-aux">导出Excel只能在电脑端操作！</div>
+        </form>
+    </blockquote>
+
+
+
+    <table class="layui-hide" id="test"></table>
+    <script type="text/html" id="toolbarDemo">
+        <div class="layui-btn-container">
+        </div>
+    </script>
+    <script src="~/layui-v2.5.6/layui/layui.js?v=c298c7f8233d" charset="utf-8" ></script>
+
+    <script>
+        layui.use(['form','laydate','table','layer'], function () {
+            var $ = layui.$
+                , form = layui.form
+                , laydate = layui.laydate
+                , table = layui.table
+                , layer = layui.layer
+                , resultdata=[];
+              //日期范围
+              laydate.render({
+                elem: '#test1'
+              });
+              laydate.render({
+                elem: '#test2'
+              });
+              form.on('radio(factoryradio)', function (data) {
+                if (data.value == '东莞厂区') {
+                    $("#dgchoose").attr("style", "display:block;");//显示div
+                        $("#jxchoose").attr("style", "display:none;");//隐藏div
+                } else if (data.value == '江西厂区') {
+                    $("#jxchoose").attr("style", "display:block;");//显示div
+                    $("#dgchoose").attr("style", "display:none;");//隐藏div
+                } else {
+                    $("#dgchoose").attr("style", "display:none;");//隐藏div
+                    $("#jxchoose").attr("style", "display:none;");//隐藏div
+                }
+            });  
+             $.ajax({
+                   url: "@Url.Action("DeptQueryOne","Home")",
+                   type: "post",
+                   dataType : "json",
+                   async: false,
+                    success: function (result) {
+                        var jsonresult = $.parseJSON(result);
+                        var strs = '';
+                       for(var x in jsonresult){
+                          strs += '<option value = "' + jsonresult[x].onelevel + '">' + jsonresult[x].onelevel + '</option>'
+                       } 
+                        $("#deptonelevel").html(strs);
+                        form.render('select');//最后记得渲染
+                       }
+                 });
+                 form.on('select(deptonelevel)', function(data){ //no是那个lay-filter的值
+                                    var deptonelevel=$("#deptonelevel").val();//获得选中的option的值
+                                            $.ajax({
+                                            url: "@Url.Action("DeptQueryTwo","Home")",//带参数将这个传到后台条件查询方法里面
+                                            type: "post",
+                                            data: {"onelevel":deptonelevel},
+                                            dataType : "json",
+                                            async: false,//同步
+                                            success: function (result) {
+                                                var jsonresult = $.parseJSON(result);
+                                                 var str = '';
+                                                for(var x in jsonresult){
+                                                str += '<option value = "' + jsonresult[x].twolevel + '">' + jsonresult[x].twolevel + '</option>'
+                                                } 
+                                                $("#depttwolevel").html(str);
+                                                }
+                                            });
+                                            form.render('select');//最后记得渲染
+                                        });
+                   form.on('select(depttwolevel)', function(data){ //no是那个lay-filter的值
+                                    var depttwolevel=$("#depttwolevel").val();//获得选中的option的值
+                                            $.ajax({
+                                            url: "@Url.Action("DeptQueryThree","Home")",//带参数将这个传到后台条件查询方法里面
+                                            type: "post",
+                                            data: {"twolevel":depttwolevel},
+                                            dataType : "json",
+                                            async: false,//同步
+                                            success: function (result) {
+                                                var jsonresult = $.parseJSON(result);
+                                                 var str = '';
+                                                for(var x in jsonresult){
+                                                str += '<option value = "' + jsonresult[x].threelevel + '">' + jsonresult[x].threelevel + '</option>'
+                                                } 
+                                                $("#deptthreelevel").html(str);
+                                                }
+                                            });
+                                            form.render('select');//最后记得渲染
+                   });
+
+            var tableIns =table.render({
+                elem: '#test'
+                ,toolbar: '#toolbarDemo' //开启头部工具栏，并为其绑定左侧模板
+                , defaultToolbar: ['filter', 'exports', 'print']
+                ,size:'sm'
+                ,limit:100000
+                , cols: [[
+                    { field: 'ID', width: 60, title: '序号' }
+                    , { field: 'userno', width: 80, title: '工号' }
+                    , { field: 'username', width: 80, title: '姓名' }
+                    , { field: 'sex', width: 60, title: '性别'  }
+                    , { field: 'RecordDate', title: '登记时间',minWidth: 180 } //minWidth：局部定义当前单元格的最小宽度，layui 2.2.1 新增
+                ]]
+            });
+
+            function querydata() {
+                $.ajax({
+                url: "@Url.Action("ApplyQueryData","Home")",
+                    data: {
+                        'deptonelevel': $("#deptonelevel").val(), 'depttwolevel': $("#depttwolevel").val(), 'deptthreelevel': $("#deptthreelevel").val()
+                        , 'begindate': $("#test1").val(), 'enddate': $("#test2").val(), 'dgfactory': $("input[name=factory][value='东莞厂区']").is(':checked')
+                        , 'jxfactory': $("input[name=factory][value='江西厂区']").is(':checked')
+                        , 'dgchoose1': $("input[name=dgchoose][value='入住园区']").is(':checked')
+                        , 'dgchoose2': $("input[name=dgchoose][value='回到广东未入住园区']").is(':checked')
+                        , 'dgchoose3': $("input[name=dgchoose][value='在老家']").is(':checked')
+                        , 'jxchoose1': $("input[name=jxchoose][value='入住园区']").is(':checked')
+                        , 'jxchoose2': $("input[name=jxchoose][value='未入住园区']").is(':checked')
+                    },
+                 type: "post",
+                   dataType : "json",
+                   async: false,
+                    success: function (result) {
+                        if (result=='') {
+                            layer.alert('选项条件无数据,请确认', {
+                                  icon: 2,
+                                  skin: 'layer-ext-moon' 
+                            })
+                            return false;
+                        }
+                        var jsonresult = $.parseJSON(result);
+                        resultdata = {"code": 0,
+                            "msg": '',
+                            "count": jsonresult.length,
+                            "data":jsonresult};
+                       }
+                 });
+            }
+
+
+            $('#demo2').on('click', function () {
+                querydata();
+                tableIns.reload({
+                    data: resultdata.data
+                });
+             });
+        });
+    </script>
+
+</body>
+</html>

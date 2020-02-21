@@ -1,0 +1,118 @@
+﻿
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>奥海科技新型肺炎防控信息统计表</title>
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <link href="~/layui-v2.5.6/layui/css/layui.css" rel="stylesheet" media="all" />
+</head>
+<body>
+    <h2 align="center" style="margin-top:10px">奥海科技疫情防控防疫信息报备登记表</h2>
+    <form class="layui-form" style="margin: 0 auto;max-width: 315px;padding-top: 40px;">
+        <fieldset class="layui-elem-field">
+            <legend>厂区</legend>
+            <div class="layui-field-box">
+                <div class="layui-form-item">
+                    <div class="layui-input-block">
+                        <input type="radio" name="factory" value="东莞厂区" title="东莞厂区" lay-filter="factoryradio">
+                        <input type="radio" name="factory" value="江西厂区" title="江西厂区" lay-filter="factoryradio">
+                    </div>
+                </div>
+            </div>
+        </fieldset>
+        <fieldset class="layui-elem-field" id="choose" style="display:none;">
+            <legend>目前情况</legend>
+            <div class="layui-field-box">
+                <div class="layui-form-item" id="dgchoose">
+                    <div class="layui-input-block">
+                        <input type="radio" name="dgchoose" value="入住园区" title="入住园区">
+                        <input type="radio" name="dgchoose" value="回到广东未入住园区" title="回到广东未入住园区">
+                        <input type="radio" name="dgchoose" value="在老家" title="在老家">
+                    </div>
+                </div>
+                <div class="layui-form-item" id="jxchoose">
+                    <div class="layui-input-block">
+                        <input type="radio" name="jxchoose" value="入住园区" title="入住园区">
+                        <input type="radio" name="jxchoose" value="未入住园区" title="未入住园区">
+                    </div>
+                </div>
+            </div>
+        </fieldset>
+
+
+        <div class="layui-form-item" style="margin-top:20px">
+            <div class="layui-input-block">
+                <button class="layui-btn" type="button" id="commit">
+                    &emsp;确定&emsp;
+                </button>
+            </div>
+        </div>
+    </form>
+
+
+    <script src="~/layui-v2.5.6/layui/layui.js" charset="utf-8"></script>
+    <script>
+        layui.use(['layer', 'form'], function () {
+            var $ = layui.$
+                , layer = layui.layer
+                , form = layui.form;
+                form.on('radio(factoryradio)', function (data) {
+                    if (data.value == '东莞厂区') {
+                        $("#choose").attr("style", "display:block;");//显示div
+                        $("#dgchoose").attr("style", "display:block;");//显示div
+                         $("#jxchoose").attr("style", "display:none;");//隐藏div
+                    } else if (data.value == '江西厂区') {
+                        $("#choose").attr("style", "display:block;");//显示div
+                        $("#jxchoose").attr("style", "display:block;");//显示div
+                        $("#dgchoose").attr("style", "display:none;");//隐藏div
+                    } else {
+                        $("#choose").attr("style", "display:none;");//隐藏div
+                    }
+                });
+            $('#commit').on('click', function () {
+                if ($("input[name=factory][value='东莞厂区']").is(':checked')) {
+                    if ($("input[name=dgchoose][value='入住园区']").is(':checked')) {
+                        window.open("@Url.Action("DongGuanIndex2","Home")");
+                    } else if ($("input[name=dgchoose][value='回到广东未入住园区']").is(':checked')) {
+                        window.open("@Url.Action("DongGuanIndex1","Home")");
+                    } else if ($("input[name=dgchoose][value='在老家']").is(':checked')) {
+                        window.open("@Url.Action("DongGuanIndex3","Home")");
+                    } else {
+                        layer.alert('请选择目前情况', {
+                            icon: 2,
+                            skin: 'layer-ext-moon'
+                        })
+                        return false;
+                    }
+                } else if ($("input[name=factory][value='江西厂区']").is(':checked')) {
+                    if ($("input[name=jxchoose][value='入住园区']").is(':checked')) {
+                        window.open("@Url.Action("JiangXiIndex1","Home")");
+                    } else if ($("input[name=jxchoose][value='未入住园区']").is(':checked')) {
+                        window.open("@Url.Action("JiangXiIndex2","Home")");
+                    } else {
+                        layer.alert('请选择目前情况', {
+                            icon: 2,
+                            skin: 'layer-ext-moon'
+                        })
+                        return false;
+                    }
+                } else {
+                    layer.alert('请选择厂区', {
+                        icon: 2,
+                        skin: 'layer-ext-moon'
+                    })
+                    return false;
+                }
+             });
+        });
+    </script>
+
+</body>
+</html>

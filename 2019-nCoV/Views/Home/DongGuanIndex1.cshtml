@@ -1,0 +1,730 @@
+﻿
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>奥海科技新型肺炎防控信息统计表(回到广东未入住园区)</title>
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <link href="~/layui-v2.5.6/layui/css/layui.css" rel="stylesheet" media="all" />
+    <link href="~/step/step-lay/step.css" rel="stylesheet" />
+</head>
+<body>
+    <div class="layui-fluid">
+        <div class="layui-card">
+            <div class="layui-card-body" style="padding-top: 40px;">
+                <div class="layui-carousel" id="stepForm" lay-filter="stepForm" style="margin: 0 auto;height: 600px;">
+                    <div carousel-item>
+                        <div>
+                            <form class="layui-form" style="margin: 0 auto;max-width: 315px;padding-top: 40px;">
+                                <div class="layui-form-item">
+                                    <label class="layui-form-label">工号</label>
+                                    <div class="layui-input-block">
+                                        <input type="text" id="userno" name="userno" lay-verify="required" lay-reqtext="请输入工号" placeholder="请输入工号" autocomplete="off" class="layui-input">
+                                    </div>
+                                </div>
+                                <div class="layui-form-item">
+                                    <label class="layui-form-label">姓名</label>
+                                    <div class="layui-input-block">
+                                        <input type="text" id="username" name="username" lay-verify="required" lay-reqtext="请输入姓名" placeholder="请输入姓名" autocomplete="off" class="layui-input">
+                                    </div>
+                                </div>
+                                <div class="layui-form-item">
+                                    <label class="layui-form-label">性别</label>
+                                    <div class="layui-input-block">
+                                        <input type="radio" name="sex" value="男" title="男" checked="">
+                                        <input type="radio" name="sex" value="女" title="女">
+                                    </div>
+                                </div>
+                                <div class="layui-form-item">
+                                    <label class="layui-form-label">出生年份</label>
+                                    <div class="layui-input-inline">
+                                        <input type="text" class="layui-input" id="test2" placeholder="yyyy" name="bornyear" lay-verify="required">
+                                    </div>
+                                </div>
+                                <div class="layui-form-item">
+                                    <label class="layui-form-label">手机</label>
+                                    <div class="layui-input-inline">
+                                        <input type="tel" id="phone" name="phone" lay-verify="required|phone" autocomplete="off" class="layui-input">
+                                    </div>
+                                    @*<div class="layui-inline">
+                                            <label class="layui-form-label">部门</label>
+                                            <div class="layui-input-inline">
+                                                <input type="text" id="dept" name="dept" lay-verify="required" autocomplete="off" class="layui-input">
+                                            </div>
+                                        </div>*@
+                                </div>
+                                <div class="layui-form-item">
+                                    <div class="layui-inline">
+                                        <label class="layui-form-label">一级部门</label>
+                                        <div class="layui-input-block">
+                                            <select id="deptonelevel" name="deptonelevel" lay-filter="deptonelevel" lay-verify="required">
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="layui-inline">
+                                        <label class="layui-form-label">二级部门</label>
+                                        <div class="layui-input-block">
+                                            <select id="depttwolevel" name="depttwolevel" lay-filter="depttwolevel">
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="layui-inline">
+                                        <label class="layui-form-label">三级部门</label>
+                                        <div class="layui-input-block">
+                                            <select id="deptthreelevel" name="deptthreelevel" lay-filter="deptthreelevel">
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="layui-form-item" id="area-picker">
+                                    <div class="layui-form-label">籍贯</div>
+                                    <div class="layui-input-inline" style="width: 200px;">
+                                        <select name="province" id="province" class="province-selector" data-value="" lay-filter="province-1">
+                                            <option value="">请选择省</option>
+                                        </select>
+                                    </div>
+                                    <div class="layui-input-inline" style="width: 200px;">
+                                        <select name="city" id="city" class="city-selector" data-value="" lay-filter="city-1">
+                                            <option value="">请选择市</option>
+                                        </select>
+                                    </div>
+                                    <div class="layui-input-inline" style="width: 200px;">
+                                        <select name="county" id="county" class="county-selector" data-value="" lay-filter="county-1">
+                                            <option value="">请选择区(镇)</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="layui-form-item">
+                                    <div class="layui-input-block">
+                                        <button class="layui-btn" lay-submit lay-filter="formStep">
+                                            &emsp;下一步&emsp;
+                                        </button>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                        <div>
+                            <form class="layui-form" style="margin: 0 auto;max-width: 460px;padding-top: 40px;">
+                                <div class="layui-form-item">
+                                    <label class="layui-form-label">1.24天内是否在湖北,浙江温州居住:</label>
+                                </div>
+                                <div class="layui-form-item">
+                                    <div class="layui-input-block">
+                                        <input type="radio" name="q1" value="是" title="是">
+                                        <input type="radio" name="q1" value="否" title="否">
+                                    </div>
+                                </div>
+                                <div class="layui-form-item">
+                                    <div class="layui-input-block">
+                                        <input type="text" name="q1city" placeholder="城市名" autocomplete="off" class="layui-input">
+                                    </div>
+                                </div>
+                                <div class="layui-form-item">
+                                    <label class="layui-form-label">2.24天内是否去过/途径湖北或浙江温州:</label>
+                                </div>
+                                <div class="layui-form-item">
+                                    <div class="layui-input-block">
+                                        <input type="radio" name="q2" value="是" title="是">
+                                        <input type="radio" name="q2" value="否" title="否">
+                                    </div>
+                                </div>
+                                <div class="layui-form-item">
+                                    <label class="layui-form-label">3.24天内是否有来自湖北/浙江温州<br>或者从湖北或浙江温州回来的亲友来访:</label>
+                                </div>
+                                <div class="layui-form-item">
+                                    <div class="layui-input-block">
+                                        <input type="radio" name="q3" value="是" title="是">
+                                        <input type="radio" name="q3" value="否" title="否">
+                                    </div>
+                                </div>
+                                <div class="layui-form-item">
+                                    <label class="layui-form-label">4.24天内是否有新型冠状病毒感染的肺炎<br>确诊病例接触史:</label>
+                                </div>
+                                <div class="layui-form-item">
+                                    <div class="layui-input-block">
+                                        <input type="radio" name="q4" value="是" title="是">
+                                        <input type="radio" name="q4" value="否" title="否">
+                                    </div>
+                                </div>
+                                <div class="layui-form-item">
+                                    <label class="layui-form-label">5.本人或者家属是否有肺炎感染病症:</label>
+                                </div>
+                                <div class="layui-form-item">
+                                    <div class="layui-input-block">
+                                        <input type="radio" name="q5" value="是" title="是">
+                                        <input type="radio" name="q5" value="否" title="否">
+                                    </div>
+                                </div>
+                                <div class="layui-form-item">
+                                    <label class="layui-form-label">6.请选择自己出现的症状(没有请选择无症状):</label>
+                                </div>
+                                <div class="layui-form-item">
+                                    <div class="layui-input-block">
+                                        <input type="checkbox" name="q6symptom" value="发热(37.3度以上)" title="发热(37.3度以上)">
+                                        <input type="checkbox" name="q6symptom" value="咳嗽" title="咳嗽">
+                                        <input type="checkbox" name="q6symptom" value="喉咙疼痛" title="喉咙疼痛">
+                                        <input type="checkbox" name="q6symptom" value="头痛" title="头痛">
+                                        <input type="checkbox" name="q6symptom" value="流鼻涕" title="流鼻涕">
+                                        <input type="checkbox" name="q6symptom" value="无症状" title="无症状">
+                                        <input type="checkbox" name="q6symptom" value="其他" title="其他">
+                                    </div>
+                                </div>
+                                <div class="layui-form-item">
+                                    <div class="layui-input-block">
+                                        <input type="text" name="q6othersymptom" placeholder="其他症状" autocomplete="off" class="layui-input">
+                                    </div>
+                                </div>
+                                <div class="layui-form-item">
+                                    <label class="layui-form-label">7.现在居住地(具体到名牌号):</label>
+                                    <div class="layui-input-block">
+                                        <input type="text" name="q7nowplace" lay-verify="required" lay-reqtext="请输入现在居住地(具体到名牌号)" placeholder="请输入地名(精确到门牌号或村组)" autocomplete="off" class="layui-input">
+                                    </div>
+                                </div>
+                                <div class="layui-form-item">
+                                    <label class="layui-form-label">8.家里有哪些人:</label>
+                                </div>
+                                <div class="layui-form-item">
+                                    <div class="layui-input-block">
+                                        <input type="checkbox" name="q8personnel" value="父亲或公公" title="父亲或公公">
+                                        <input type="checkbox" name="q8personnel" value="母亲或婆婆" title="母亲或婆婆">
+                                        <input type="checkbox" name="q8personnel" value="丈夫或者妻子" title="丈夫或者妻子">
+                                        <input type="checkbox" name="q8personnel" value="儿子" title="儿子">
+                                        <input type="checkbox" name="q8personnel" value="女儿" title="女儿">
+                                        <input type="checkbox" name="q8personnel" value="姐姐/妹妹" title="姐姐/妹妹">
+                                        <input type="checkbox" name="q8personnel" value="哥哥/弟弟" title="哥哥/弟弟">
+                                        <input type="checkbox" name="q8personnel" value="其他" title="其他(注明是什么关系)">
+                                    </div>
+                                </div>
+                                <div class="layui-form-item">
+                                    <div class="layui-input-block">
+                                        <input type="text" name="q8otherpersonnel" placeholder="其他关系" autocomplete="off" class="layui-input">
+                                    </div>
+                                </div>
+                                <div class="layui-form-item">
+                                    <label class="layui-form-label">9.今天是否外出:</label>
+                                </div>
+                                <div class="layui-form-item">
+                                    <div class="layui-input-block">
+                                        <input type="radio" name="q9" value="是" title="是" lay-filter="q9radio">
+                                        <input type="radio" name="q9" value="否" title="否" lay-filter="q9radio">
+                                    </div>
+                                </div>
+                                <div id="q9yes" style="display:none;">
+                                    <div class="layui-form-item">
+                                        <label class="layui-form-label">请注明什么时间去了哪些地方:</label>
+                                        <div class="layui-input-block">
+                                            <input type="text" name="q12mark" placeholder="详细行程说明" autocomplete="off" class="layui-input">
+                                        </div>
+                                    </div>
+                                    <div class="layui-form-item">
+                                        <label class="layui-form-label">10.今天外出去了哪里:</label>
+                                    </div>
+                                    <div class="layui-form-item">
+                                        <div class="layui-input-block">
+                                            <input type="checkbox" name="q10site" value="超市" title="超市">
+                                            <input type="checkbox" name="q10site" value="商场" title="商场">
+                                            <input type="checkbox" name="q10site" value="菜市场" title="菜市场">
+                                            <input type="checkbox" name="q10site" value="书店" title="书店">
+                                            <input type="checkbox" name="q10site" value="其他" title="其他">
+                                        </div>
+                                    </div>
+                                    <div class="layui-form-item">
+                                        <div class="layui-input-block">
+                                            <input type="text" name="q10othersite" placeholder="其他地方" autocomplete="off" class="layui-input">
+                                        </div>
+                                    </div>
+                                    <div class="layui-form-item">
+                                        <label class="layui-form-label">11.今天外出乘坐的交通工具:</label>
+                                    </div>
+                                    <div class="layui-form-item">
+                                        <div class="layui-input-block">
+                                            <input type="checkbox" name="q11vehicle" value="自驾车" title="自驾车">
+                                            <input type="checkbox" name="q11vehicle" value="自行车" title="自行车">
+                                            <input type="checkbox" name="q11vehicle" value="滴滴打车" title="滴滴打车">
+                                            <input type="checkbox" name="q11vehicle" value="步行" title="步行">
+                                            <input type="checkbox" name="q11vehicle" value="其他" title="其他">
+                                        </div>
+                                    </div>
+                                    <div class="layui-form-item">
+                                        <div class="layui-input-block">
+                                            <input type="text" name="q11othervehicle" placeholder="其他交通工具" autocomplete="off" class="layui-input">
+                                        </div>
+                                    </div>
+                                    <div class="layui-form-item">
+                                        <label class="layui-form-label">12.今天外出是否接触疑似肺炎病症人员<br>或者来自湖北,浙江温州等重疫区的人员:</label>
+                                    </div>
+                                    <div class="layui-form-item">
+                                        <div class="layui-input-block">
+                                            <input type="radio" name="q12" value="是" title="是">
+                                            <input type="radio" name="q12" value="否" title="否">
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <br>
+                                <br>
+                                <div class="layui-form-item">
+                                    <div class="layui-input-block">
+                                        <button class="layui-btn" lay-submit lay-filter="formStep">
+                                            &emsp;下一步&emsp;
+                                        </button>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                        <div>
+                            <div style="text-align: center;margin-top: 90px;">
+                                <i class="layui-icon layui-circle"
+                                   style="color: white;font-size:30px;font-weight:bold;background: #52C41A;padding: 20px;line-height: 80px;">&#xe605;</i>
+                                <div style="font-size: 24px;color: #333;font-weight: 500;margin-top: 30px;">
+                                    填写成功
+                                </div>
+                                <div style="font-size: 14px;color: #666;margin-top: 20px;">感谢！！</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <hr>
+            </div>
+        </div>
+    </div>
+
+
+    <script src="~/layui-v2.5.6/layui/layui.js" charset="utf-8"></script>
+    <script src="~/step/step-lay/step.js" charset="utf-8"></script>
+    <script>
+        //配置插件目录
+        layui.config({
+            base: '../mods/'
+            , version: '3.0'
+        },{
+            base:'../step/step-lay/'
+            , version: '1.0'
+        });
+        layui.use(['layer', 'form', 'layarea', 'step','laydate'], function () {
+            var $ = layui.$
+                , layer = layui.layer
+                , form = layui.form
+                , layarea = layui.layarea
+                , step = layui.step
+                , laydate = layui.laydate
+                , stepcheck = false
+                ,lastdate=[];
+              laydate.render({
+                  elem: '#test2' //指定元素
+                  , type: 'year'
+                  , value: '1990'
+                  , isInitValue: false
+              });
+             //公告
+              layer.open({
+                type: 1
+                ,title: false //不显示标题栏
+                ,area: '300px;'
+                ,shade: 0.8
+                ,id: 'LAY_layuipro' //设定一个id，防止重复弹出
+                ,moveType: 1 //拖拽模式，0或者1
+                ,content: '<div style="padding: 25px; line-height: 22px; background-color: #393D49; color: #fff; font-weight: 300;"><H3>奥海科技新型肺炎防控信息统计表</H3><br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;根据广东省疫情防控指挥办公室《关于延迟疫情重点地区有关人员返粤时间的通知》、东莞市人力资源和社会保障局发布的《东莞市新型冠状病毒感染的肺炎疫情防控期间企业节后复工用工指引》等相关要求，鉴于目前新型肺炎疫情严重，请所有职员工配合如实填写下表，公司将对各员工进行节前返乡及节后返莞返岗情况进行摸查。<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;请各员工积极配合公司完成申报防控工作，如实登记个人信息（包括身份信息、身体状况、出行情况及是否接触疫区人员等）。坚决做到不假报、不错报、不缓报、不瞒报、不漏报。<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;友情提示：在疫情防控期间，如果出现隐瞒实情、传播病毒等行为，构成犯罪的，将依法追究刑事责任；不构成犯罪的，依据《中华人民共和国治安管理处罚法》予以治安处罚。</div>'
+              });
+
+            step.render({
+                elem: '#stepForm',
+                filter: 'stepForm',
+                width: '100%', //设置容器宽度
+                stepWidth: '294px',
+                height: '2000px',
+                stepItems: [{
+                    title: '基本信息'
+                }, {
+                    title: '健康状况'
+                }, {
+                    title: '完成'
+                }]
+            });
+
+            layarea.render({
+                elem: '#area-picker',
+                change: function (res) {
+                    //选择结果
+                    //console.log(res);
+                }
+            });
+            form.on('radio(q9radio)', function (data) {
+                if (data.value == '是') {
+                    $("#q9yes").attr("style", "display:block;");//显示div
+                } else if (data.value == '否')  {
+                    $("#q9yes").attr("style", "display:none;");//隐藏div
+                }
+            });  
+
+            var lastdate = [];
+            form.on('submit(formStep)', function (data) {
+                if (!stepcheck) {
+                    if (data.field.sex == undefined) {
+                        layer.alert('请选择性别', {
+                          icon: 2,
+                          skin: 'layer-ext-moon'
+                        })
+                        return false;
+                    }
+                    if (data.field.deptonelevel == '') {
+                        layer.alert('请选择一级部门', {
+                          icon: 2,
+                          skin: 'layer-ext-moon'
+                        })
+                        return false;
+                    }
+                    if (data.field.province == ''||data.field.city == ''||data.field.county == '') {
+                        layer.alert('请选择籍贯', {
+                          icon: 2,
+                          skin: 'layer-ext-moon'
+                        })
+                        return false;
+                    }
+                    lastdate = data.field;
+                    stepcheck = true;
+                }
+                else {
+                    if (data.field.q1 == undefined) {
+                        layer.alert('请选择问题1', {
+                          icon: 2,
+                          skin: 'layer-ext-moon'
+                        })
+                        return false;
+                    }
+                    if (data.field.q1 != undefined && data.field.q1 == '是') {
+                        if (data.field.q1city == '') {
+                              layer.alert('问题1需填写城市名', {
+                                  icon: 2,
+                                  skin: 'layer-ext-moon'
+                              })
+                              return false;
+                        }
+                    }
+                    if (data.field.q2 == undefined) {
+                        layer.alert('请选择问题2', {
+                          icon: 2,
+                          skin: 'layer-ext-moon'
+                        })
+                        return false;
+                    }
+                    if (data.field.q3 == undefined) {
+                        layer.alert('请选择问题3', {
+                          icon: 2,
+                          skin: 'layer-ext-moon'
+                        })
+                        return false;
+                    }
+                    if (data.field.q4 == undefined) {
+                        layer.alert('请选择问题4', {
+                          icon: 2,
+                          skin: 'layer-ext-moon'
+                        })
+                        return false;
+                    }
+                    if (data.field.q5 == undefined) {
+                        layer.alert('请选择问题5', {
+                          icon: 2,
+                          skin: 'layer-ext-moon'
+                        })
+                        return false;
+                    }
+                    var arr1 = new Array();
+                    $("input:checkbox[name='q6symptom']:checked").each(function(i){
+                        arr1[i] = $(this).val();
+                    });
+                    if (arr1.length <= 0) {
+                        layer.alert('问题6至少选择一个选项,没有请选择无症状', {
+                          icon: 2,
+                          skin: 'layer-ext-moon'
+                        })
+                        return false;
+                    }
+                    if (arr1.toString().indexOf("其他") >= 0 && data.field.q6othersymptom == '') {
+                        layer.alert('问题6选择其他需要输入症状说明', {
+                          icon: 2,
+                          skin: 'layer-ext-moon'
+                        })
+                        return false;
+                    }
+                    var arr2 = new Array();
+                    $("input:checkbox[name='q8personnel']:checked").each(function(i){
+                        arr2[i] = $(this).val();
+                    });
+                    if (arr2.length <= 0) {
+                        layer.alert('问题8至少选择一个选项', {
+                          icon: 2,
+                          skin: 'layer-ext-moon'
+                        })
+                        return false;
+                    }
+                    if (arr2.toString().indexOf("其他") >= 0 && data.field.q8otherpersonnel == '') {
+                        layer.alert('问题8选择其他需要输入与之关系', {
+                          icon: 2,
+                          skin: 'layer-ext-moon'
+                        })
+                        return false;
+                    }
+                    if (data.field.q9 == undefined) {
+                        layer.alert('请选择问题9', {
+                          icon: 2,
+                          skin: 'layer-ext-moon'
+                        })
+                        return false;
+                    }
+                    var arr3 = new Array();
+                    var arr4 = new Array();
+                    if (data.field.q9 != undefined && data.field.q9 == '是') {
+                        $("input:checkbox[name='q10site']:checked").each(function(i){
+                            arr3[i] = $(this).val();
+                        });
+                        if (arr3.length <= 0) {
+                            layer.alert('问题10至少选择一个选项', {
+                              icon: 2,
+                              skin: 'layer-ext-moon'
+                            })
+                            return false;
+                        }
+                        if (arr3.toString().indexOf("其他") >= 0 && data.field.q10othersite == '') {
+                            layer.alert('问题10选择其他需要输入去向', {
+                              icon: 2,
+                              skin: 'layer-ext-moon'
+                            })
+                            return false;
+                        }
+                        $("input:checkbox[name='q11vehicle']:checked").each(function(i){
+                            arr4[i] = $(this).val();
+                        });
+                        if (arr4.length <= 0) {
+                            layer.alert('问题11至少选择一个选项', {
+                              icon: 2,
+                              skin: 'layer-ext-moon'
+                            })
+                            return false;
+                        }
+                        if (arr4.toString().indexOf("其他") >= 0 && data.field.q11othervehicle == '') {
+                            layer.alert('问题11选择其他需要输入说明', {
+                              icon: 2,
+                              skin: 'layer-ext-moon'
+                            })
+                            return false;
+                        }
+                        if (data.field.q12 == undefined) {
+                            layer.alert('请选择问题12', {
+                              icon: 2,
+                              skin: 'layer-ext-moon'
+                            })
+                            return false;
+                        }
+                        if (data.field.q12mark == '') {
+                            layer.alert('外出请输入详细行程说明(何时何地)', {
+                                icon: 2,
+                                skin: 'layer-ext-moon'
+                            })
+                            return false;
+                        }
+                    }
+
+
+                    
+                    
+                    
+                    
+                     
+                    
+                    lastdate.q1 = data.field.q1;
+                    lastdate.q1city = data.field.q1city;
+                    lastdate.q2 = data.field.q2;
+                    lastdate.q3 = data.field.q3;
+                    lastdate.q4 = data.field.q4;
+                    lastdate.q5 = data.field.q5;
+                    lastdate.q6symptom = arr1.toString();
+                    lastdate.q6othersymptom = data.field.q6othersymptom;
+                    lastdate.q7nowplace = data.field.q7nowplace;
+                    lastdate.q8personnel = arr2.toString();
+                    lastdate.q8otherpersonnel = data.field.q8otherpersonnel;
+                    lastdate.q9 = data.field.q9;
+                    if (data.field.q9 != undefined && data.field.q9 == '是') {
+                        lastdate.q10site = arr3.toString();
+                        lastdate.q10othersite = data.field.q10othersite;
+                        lastdate.q11vehicle = arr4.toString();
+                        lastdate.q11othervehicle = data.field.q11othervehicle;
+                        lastdate.q12 = data.field.q12;
+                        lastdate.q12mark = data.field.q12mark;
+                    }
+                    else {
+                        lastdate.q10site = '';
+                        lastdate.q10othersite = '';
+                        lastdate.q11vehicle = '';
+                        lastdate.q11othervehicle = '';
+                        lastdate.q12 = '';
+                        lastdate.q12mark = '';
+                    }
+                    //lastdate.push(data.field);
+                    $.ajax({
+                        type: "GET",
+                        url: "@Url.Action("DGNoReturnZoomAdd","Home")",
+                        data: {
+                            'username': lastdate.username, 'userno': lastdate.userno, 'sex': lastdate.sex, 'bornyear': lastdate.bornyear
+                            , 'phone': lastdate.phone, 'deptonelevel': lastdate.deptonelevel, 'depttwolevel': lastdate.depttwolevel
+                            , 'deptthreelevel': lastdate.deptthreelevel, 'province': lastdate.province, 'city': lastdate.city, 'county': lastdate.county
+                            , 'q1': lastdate.q1, 'q1city': lastdate.q1city, 'q2': lastdate.q2, 'q3': lastdate.q3, 'q4': lastdate.q4, 'q5': lastdate.q5, 'q6symptom': lastdate.q6symptom
+                            , 'q6othersymptom': lastdate.q6othersymptom, 'q7nowplace': lastdate.q7nowplace, 'q8personnel': lastdate.q8personnel
+                            , 'q8otherpersonnel': lastdate.q8otherpersonnel, 'q9': lastdate.q9, 'q10site': lastdate.q10site, 'q10othersite': lastdate.q10othersite
+                            , 'q11vehicle': lastdate.q11vehicle, 'q11othervehicle': lastdate.q11othervehicle, 'q12': lastdate.q12, 'q12mark': lastdate.q12mark
+                        },
+                        dataType: "json"
+                    });
+                    layer.alert('提交成功!', {
+                            icon: 1,
+                            skin: 'layer-ext-moon'
+                    })
+                }
+
+                step.next('#stepForm');
+                $('html,body').animate({scrollTop: '0px'}, 800);
+                return false;
+            });
+                $.ajax({
+                   url: "@Url.Action("DeptQueryOne","Home")",
+                   type: "post",
+                   dataType : "json",
+                   async: false,
+                    success: function (result) {
+                        var jsonresult = $.parseJSON(result);
+                        var strs = '';
+                       for(var x in jsonresult){
+                          strs += '<option value = "' + jsonresult[x].onelevel + '">' + jsonresult[x].onelevel + '</option>'
+                       } 
+                        $("#deptonelevel").html(strs);
+                        form.render('select');//最后记得渲染
+                       }
+                 });
+                 form.on('select(deptonelevel)', function(data){ //no是那个lay-filter的值
+                                    var deptonelevel=$("#deptonelevel").val();//获得选中的option的值
+                                            $.ajax({
+                                            url: "@Url.Action("DeptQueryTwo","Home")",//带参数将这个传到后台条件查询方法里面
+                                            type: "post",
+                                            data: {"onelevel":deptonelevel},
+                                            dataType : "json",
+                                            async: false,//同步
+                                            success: function (result) {
+                                                var jsonresult = $.parseJSON(result);
+                                                 var str = '';
+                                                for(var x in jsonresult){
+                                                str += '<option value = "' + jsonresult[x].twolevel + '">' + jsonresult[x].twolevel + '</option>'
+                                                } 
+                                                $("#depttwolevel").html(str);
+                                                }
+                                            });
+                                            form.render('select');//最后记得渲染
+                                        });
+                   form.on('select(depttwolevel)', function(data){ //no是那个lay-filter的值
+                                    var depttwolevel=$("#depttwolevel").val();//获得选中的option的值
+                                            $.ajax({
+                                            url: "@Url.Action("DeptQueryThree","Home")",//带参数将这个传到后台条件查询方法里面
+                                            type: "post",
+                                            data: {"twolevel":depttwolevel},
+                                            dataType : "json",
+                                            async: false,//同步
+                                            success: function (result) {
+                                                var jsonresult = $.parseJSON(result);
+                                                 var str = '';
+                                                for(var x in jsonresult){
+                                                str += '<option value = "' + jsonresult[x].threelevel + '">' + jsonresult[x].threelevel + '</option>'
+                                                } 
+                                                $("#deptthreelevel").html(str);
+                                                }
+                                            });
+                                            form.render('select');//最后记得渲染
+                                        });
+
+
+            $(function(){
+               //输入框的值改变时触发
+              $("#userno").on("input",function(e){
+                //获取input输入的值
+                  var usernovalue = e.delegateTarget.value;
+                  //console.log(usernovalue);
+                  $.ajax({
+                        type:'get',
+                        url:'@Url.Action("DGNoReturnZoomQuery","Home")',
+                        cache:false,
+                        dataType: 'json',
+                        data: { 'userno': usernovalue },
+                        success:function(data){
+                            $("#username").val(data.username);
+                            $("#test2").val(data.bornyear);
+                            //$("#phone").val(data.phone);
+                            $("#deptonelevel").val(data.deptonelevel);
+                                                                var deptonelevel=$("#deptonelevel").val();//获得选中的option的值
+                                            $.ajax({
+                                            url: "@Url.Action("DeptQueryTwo","Home")",//带参数将这个传到后台条件查询方法里面
+                                            type: "post",
+                                            data: {"onelevel":deptonelevel},
+                                            dataType : "json",
+                                            async: false,//同步
+                                            success: function (result) {
+                                                var jsonresult = $.parseJSON(result);
+                                                 var str = '';
+                                                for(var x in jsonresult){
+                                                str += '<option value = "' + jsonresult[x].twolevel + '">' + jsonresult[x].twolevel + '</option>'
+                                                } 
+                                                $("#depttwolevel").html(str);
+                                                }
+                                            });
+                                                        form.render('select');//最后记得渲染
+                                                        $("#depttwolevel").val(data.depttwolevel);
+
+                            var depttwolevel=$("#depttwolevel").val();//获得选中的option的值
+                                            $.ajax({
+                                            url: "@Url.Action("DeptQueryThree","Home")",//带参数将这个传到后台条件查询方法里面
+                                            type: "post",
+                                            data: {"twolevel":depttwolevel},
+                                            dataType : "json",
+                                            async: false,//同步
+                                            success: function (result) {
+                                                var jsonresult = $.parseJSON(result);
+                                                 var str = '';
+                                                for(var x in jsonresult){
+                                                str += '<option value = "' + jsonresult[x].threelevel + '">' + jsonresult[x].threelevel + '</option>'
+                                                } 
+                                                $("#deptthreelevel").html(str);
+                                                }
+                                            });
+                            form.render('select');//最后记得渲染
+                                                        $("#deptthreelevel").val(data.deptthreelevel);
+                            $("input[name=sex][value='男']").attr("checked", data.sex == '男' ? true : false);
+                            $("input[name=sex][value='女']").attr("checked", data.sex == '女' ? true : false);
+                            $("select[name=province]").val(data.province);
+                            $("select[name=city]").val(data.city);
+                            $("select[name=county]").val(data.county);
+                            layarea.render({
+                                elem: '#area-picker',
+                                 data: {
+                                     province: data.province,
+                                     city: data.city,
+                                     county: data.county,
+                                 },
+                                change: function (res) {
+                                    //选择结果
+                                    console.log(res);
+                                }
+                            });
+                            form.render();
+                        }
+                    });
+              });
+            });
+        });
+    </script>
+
+</body>
+</html>
